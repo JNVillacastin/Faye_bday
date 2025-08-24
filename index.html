@@ -3,27 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Affirmation Heart</title>
+  <title>27 Reasons</title>
   <style>
+    :root {
+      --bg-color: #fff0f5;
+      --text-color: #d63384;
+    }
+
     body {
-      background: #fff0f5;
+      background: var(--bg-color);
+      color: var(--text-color);
       font-family: 'Segoe UI', sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      padding: 20px;
       margin: 0;
+      transition: background-color 0.4s ease, color 0.4s ease;
     }
 
-    .heart {
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tab-button {
+      padding: 10px 16px;
+      background-color: #f8d7e5;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .tab-button.active {
+      background-color: var(--text-color);
+      color: white;
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      text-align: center;
+      margin: 10px 0 30px;
+    }
+
+    .emoji {
       font-size: 100px;
       cursor: pointer;
       transition: transform 0.2s;
       user-select: none;
     }
 
-    .heart.shake {
+    .emoji.shake {
       animation: shake 0.5s ease-in-out;
     }
 
@@ -40,55 +76,225 @@
       margin-top: 30px;
       font-size: 1.4rem;
       text-align: center;
-      color: #333;
       max-width: 80%;
       opacity: 0;
-      transition: opacity 0.4s;
+      transition: opacity 0.6s ease-in-out;
     }
 
     .affirmation.visible {
       opacity: 1;
     }
+
+    .progress-container {
+      width: 80%;
+      background-color: #ddd;
+      border-radius: 10px;
+      margin-top: 20px;
+      overflow: hidden;
+      height: 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background-color: var(--text-color);
+      transition: width 0.4s ease-in-out;
+    }
+
+    .footer {
+      margin-top: 40px;
+      font-size: 0.95rem;
+      color: #555;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
-  <div class="heart" id="heart" title="Tap the heart!">💖</div>
+  <div class="tabs">
+    <button class="tab-button active" data-tab="love">💖 Why I Love You</button>
+    <button class="tab-button" data-tab="pride">🌟 Why I'm Proud of You</button>
+    <button class="tab-button" data-tab="okay">🌈 Why You'll Be Okay</button>
+  </div>
+
+  <h1 id="title">27 Reasons Why I Love You</h1>
+
+  <div class="emoji" id="emoji" title="Tap the emoji!">💖</div>
   <div class="affirmation" id="affirmation"></div>
 
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div class="footer">Happy birthday, u nerd</div>
+
   <script>
-    const affirmations = [
-      "You are loved more than you know.",
-      "Your heart is full of kindness.",
-      "You bring light into the world.",
-      "You are worthy of deep love.",
-      "Every part of you is lovable.",
-      "Love surrounds you and flows through you.",
-      "You are a magnet for positive energy.",
-      "Your presence is a gift to others.",
-      "You are enough just as you are.",
-      "Today is full of love and peace."
-    ];
+    const titles = {
+      love: "27 Reasons Why I Love You",
+      pride: "27 Reasons Why You Should Be Proud of Yourself",
+      okay: "27 Reasons Why You'll Be Okay No Matter What Happens"
+    };
 
-    const heart = document.getElementById('heart');
+    const emojis = {
+      love: "💖",
+      pride: "🌟",
+      okay: "🌈"
+    };
+
+    const colors = {
+      love: { bg: "#fff0f5", text: "#d63384" },
+      pride: { bg: "#fffbea", text: "#b8860b" },
+      okay: { bg: "#e0f7fa", text: "#0077b6" }
+    };
+
+    const affirmations = {
+      love: [
+        "You’re you <3 ",
+        "You’ve always been considerate of everyone",
+        "I never felt lonely even when we’re thousands of miles apart ‘cause your presence never left me :3 ",
+        "You’ve always been growth-oriented",
+        "You’re not afraid to challenge people’s thoughts ",
+        "You’re kind to everyone (it's actually kinda hot hngg) ",
+        "You always know how to take care of me",
+        "You always know how to cheer me up",
+        "Your sense of responsibility for your family",
+        "You’re never afraid to do what’s right",
+        "Despite everything, your heart is always in the right place",
+        "Your crazy side ;) (u know what i mean)",
+        "You’re so generous with your blessings, you help out others even when you’re not obligated to",
+        "Your quick wits (mrw) ",
+        "You’re so beautiful on the inside. No hint of malice whatsoever.",
+        "We work so well together we have teamwork that MBA grads couldn’t even match.",
+        "You’re so kind and respectful to everyone (it’s hot lol) ",
+        "You’re God-fearing (on a separate note, I thought you were a goody two-shoes, innocent Christian girl-type when I first met you LOL)",
+        "You stand firm on your beliefs",
+        "You’re smart af",
+        "Your aegyo mode (if that makes sense, peanut butter XD) .",
+        "You make the cutest reactions whenever I tease you HEHE",
+        "Have I ever told you you're gorgeous af? ;) ",
+        "You’re so down-to-earth and humble",
+        "I can be a kid when I’m with you",
+        "You’re a flavor of unhinged that I like :3 ",
+        "You’re a nerd, but you’re my nerd. I love you. <3"
+      ],
+      pride: [
+        "You’re a freaking great writer! I hope you’ll write more again ‘cause the world needs to see hear voice! ",
+        "You.make.art",
+        "You got a 1.0 on your thesis! ",
+        "You have a hidden musical ear (hehe ear); I don’t know why you haven’t really explored it but I remember you played BTS songs by ear and you sounded so good",
+        "Your fashion is *chef’s kiss*",
+        "Your cooking is so good lyk I’m not even exaggerating. That Hainanese chicken? *chef’s kiss*",
+        "You’re a former varsity table tennis player (I’m dating an athlete hoho)",
+        "You’re a trained barista hoho and you make a good Spanish latte ",
+        "You’re such a good friend and people go to you for comfort",
+        "You take amazing photos!",
+        "You’re a fast learner",
+        "You’re a great singer idk why we’ve only collabed once ajsldkjasld",
+        "You’re one of the few people in your batch who actually became a successful writer (and get paid for it!) ",
+        "You’ve performed on the most prestigious stage in the Philippines",
+        "You know when to walk away from things that no longer serve you ",
+        "You are so resilient, you pulled yourself up in situations where others couldn’t",
+        "You’re a great teacher, and it shows in how your former students greatly adored you",
+        "You embrace who you are",
+        "You’ve boothed in a con, not everyone gets to do that",
+        "You take responsibility for your life. A lot of people with a similar situation to you spiral down. But you’re too strong for that",
+        "When you say you’ll do something, you actually do it",
+        "You choose to forgive in situations that other people wouldn’t ",
+        "You’re a Twitter microcelebrity ueueue",
+        "You’ve fought battles (and won) even though you knew it would be tough. But you stood for what’s right",
+        "You honor your body’s needs, despite this generation’s persistence to do otherwise",
+        "Your shows get millions of views, like not everyone can say that",
+        "You’ve come so far. I’m proud of you. I love you. :))))) "
+      ],
+      okay: [
+        "Despite everything, you never give up",
+        "Your heart is always in the right place. The universe eventually rewards that.",
+        "A cup of coffee is waiting for you after a long day ",
+        "You’re growing day by day (not in height though, but that’s okay :3) ",
+        "You have this amazing ability to grow through things that break other people",
+        "There are so many people that love you and support you",
+        "Small steps are still progress. You will get to your destination",
+        "You know your limits and have always been able to ask for help ",
+        "You’ve grown to learn that things don’t have to be perfect to be okay (remember the recent con ueueue)",
+        "There are so many people rooting for you and wanting to see you succeed",
+        "Your voice matters, and it’s just a matter of time that the world gets to hear your voice (pls write again alskdjalskdjalskdj)",
+        "Because you are one of the rare people who understands that you are not your defined by your past",
+        "You’re doing so much better than you think beb",
+        "You know how to listen to your body’s limits and take a break",
+        "You have so much potential as an artist and as a writer",
+        "You’ve got the humor to make things a little more bearable lol",
+        "You trust God’s plan for you",
+        "You don’t cave into our generation’s nihilistic propaganda ",
+        "You’re a nerd (in a constructive way ehuehue)",
+        "You have LADs waiting for you after a long day",
+        "We’re still young; we have room to take risks ",
+        "You have the work ethic our peers severely lack lol",
+        "You have faith in humanity’s potential for creativity",
+        "You understand that rest is not something to be earned, but something that is entitled to you",
+        "You understand that asking for help is not a sign of weakness",
+        "The hope in your heart is inextinguishable",
+        "I’ll always be here for you. I love you <3 "
+      ]
+    };
+
+    const indexes = { love: 0, pride: 0, okay: 0 };
+    let currentTab = "love";
+
+    const title = document.getElementById('title');
+    const emoji = document.getElementById('emoji');
     const affirmationDiv = document.getElementById('affirmation');
+    const progressBar = document.getElementById('progressBar');
+    const tabButtons = document.querySelectorAll('.tab-button');
 
-    heart.addEventListener('click', () => {
-      // Trigger shake animation
-      heart.classList.add('shake');
+    function updateProgress() {
+      const index = indexes[currentTab];
+      const total = affirmations[currentTab].length;
+      const percent = Math.min((index / total) * 100, 100);
+      progressBar.style.width = `${percent}%`;
+    }
 
-      // Remove animation class after it's done
+    emoji.addEventListener('click', () => {
+      emoji.classList.add('shake');
+      setTimeout(() => emoji.classList.remove('shake'), 500);
+
+      const list = affirmations[currentTab];
+      let index = indexes[currentTab];
+
+      if (index >= list.length) {
+        indexes[currentTab] = 0;
+        index = 0;
+      }
+
+      const text = list[index];
+      indexes[currentTab]++;
+
+      affirmationDiv.classList.remove('visible');
       setTimeout(() => {
-        heart.classList.remove('shake');
-      }, 500);
-
-      // Get a random affirmation
-      const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
-
-      // Display affirmation
-      affirmationDiv.textContent = randomAffirmation;
-      affirmationDiv.classList.add('visible');
+        affirmationDiv.textContent = text;
+        affirmationDiv.classList.add('visible');
+        updateProgress();
+      }, 100);
     });
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        currentTab = btn.dataset.tab;
+        title.textContent = titles[currentTab];
+        emoji.textContent = emojis[currentTab];
+
+        document.documentElement.style.setProperty('--bg-color', colors[currentTab].bg);
+        document.documentElement.style.setProperty('--text-color', colors[currentTab].text);
+
+        affirmationDiv.classList.remove('visible');
+        affirmationDiv.textContent = '';
+        updateProgress();
+      });
+    });
+
+    updateProgress();
   </script>
 
 </body>
