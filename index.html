@@ -128,6 +128,9 @@
 
   <div class="footer">Happy birthday, u nerd</div>
 
+  <!-- 🔊 Sound element -->
+  <audio id="clickSound" src="click.mp3" preload="auto"></audio>
+
   <script>
     const titles = {
       love: "27 Reasons Why I Love You",
@@ -178,62 +181,62 @@
         "You’re a nerd, but you’re my nerd. I love you. <3"
       ],
       pride: [
-        "You’re a freaking great writer! I hope you’ll write more again ‘cause the world needs to see hear voice! ",
+        "You’re a freaking great writer! I hope you’ll write more again ‘cause the world needs to see your voice!",
         "You.make.art",
-        "You got a 1.0 on your thesis! ",
-        "You have a hidden musical ear (hehe ear); I don’t know why you haven’t really explored it but I remember you played BTS songs by ear and you sounded so good",
+        "You got a 1.0 on your thesis!",
+        "You played BTS songs by ear and it sounded so good",
         "Your fashion is *chef’s kiss*",
-        "Your cooking is so good lyk I’m not even exaggerating. That Hainanese chicken? *chef’s kiss*",
+        "Your cooking is so good. That Hainanese chicken? *chef’s kiss*",
         "You’re a former varsity table tennis player (I’m dating an athlete hoho)",
-        "You’re a trained barista hoho and you make a good Spanish latte ",
+        "You’re a trained barista hoho and you make a good Spanish latte",
         "You’re such a good friend and people go to you for comfort",
         "You take amazing photos!",
         "You’re a fast learner",
-        "You’re a great singer idk why we’ve only collabed once ajsldkjasld",
-        "You’re one of the few people in your batch who actually became a successful writer (and get paid for it!) ",
+        "You’re a great singer idk why we’ve only collabed once",
+        "You actually became a successful writer (and get paid for it!)",
         "You’ve performed on the most prestigious stage in the Philippines",
-        "You know when to walk away from things that no longer serve you ",
-        "You are so resilient, you pulled yourself up in situations where others couldn’t",
-        "You’re a great teacher, and it shows in how your former students greatly adored you",
+        "You know when to walk away from things that no longer serve you",
+        "You pulled yourself up in situations where others couldn’t",
+        "You’re a great teacher, and your former students greatly adored you",
         "You embrace who you are",
         "You’ve boothed in a con, not everyone gets to do that",
-        "You take responsibility for your life. A lot of people with a similar situation to you spiral down. But you’re too strong for that",
+        "You take responsibility for your life, where others spiral",
         "When you say you’ll do something, you actually do it",
-        "You choose to forgive in situations that other people wouldn’t ",
+        "You choose to forgive in situations that others wouldn’t",
         "You’re a Twitter microcelebrity ueueue",
-        "You’ve fought battles (and won) even though you knew it would be tough. But you stood for what’s right",
-        "You honor your body’s needs, despite this generation’s persistence to do otherwise",
-        "Your shows get millions of views, like not everyone can say that",
-        "You’ve come so far. I’m proud of you. I love you. :))))) "
+        "You’ve fought and won tough battles for what’s right",
+        "You honor your body’s needs",
+        "Your shows get millions of views",
+        "You’ve come so far. I’m proud of you. I love you. :)))))"
       ],
       okay: [
         "Despite everything, you never give up",
-        "Your heart is always in the right place. The universe eventually rewards that.",
-        "A cup of coffee is waiting for you after a long day ",
-        "You’re growing day by day (not in height though, but that’s okay :3) ",
-        "You have this amazing ability to grow through things that break other people",
-        "There are so many people that love you and support you",
-        "Small steps are still progress. You will get to your destination",
-        "You know your limits and have always been able to ask for help ",
-        "You’ve grown to learn that things don’t have to be perfect to be okay (remember the recent con ueueue)",
-        "There are so many people rooting for you and wanting to see you succeed",
-        "Your voice matters, and it’s just a matter of time that the world gets to hear your voice (pls write again alskdjalskdjalskdj)",
-        "Because you are one of the rare people who understands that you are not your defined by your past",
-        "You’re doing so much better than you think beb",
-        "You know how to listen to your body’s limits and take a break",
-        "You have so much potential as an artist and as a writer",
-        "You’ve got the humor to make things a little more bearable lol",
+        "Your heart is always in the right place. The universe will reward that.",
+        "A cup of coffee is waiting for you after a long day",
+        "You’re growing day by day (not in height though, but that’s okay :3)",
+        "You grow through things that break others",
+        "So many people love and support you",
+        "Small steps are still progress. You will get there.",
+        "You know your limits and ask for help",
+        "You’ve learned things don’t have to be perfect to be okay",
+        "Many people are rooting for your success",
+        "Your voice matters — just a matter of time!",
+        "You know you’re not defined by your past",
+        "You’re doing better than you think",
+        "You listen to your body’s needs",
+        "You have so much potential as an artist and writer",
+        "You’ve got the humor to make things more bearable lol",
         "You trust God’s plan for you",
-        "You don’t cave into our generation’s nihilistic propaganda ",
+        "You don’t fall into this generation’s nihilism",
         "You’re a nerd (in a constructive way ehuehue)",
-        "You have LADs waiting for you after a long day",
-        "We’re still young; we have room to take risks ",
-        "You have the work ethic our peers severely lack lol",
-        "You have faith in humanity’s potential for creativity",
-        "You understand that rest is not something to be earned, but something that is entitled to you",
-        "You understand that asking for help is not a sign of weakness",
+        "LADs await you after long days",
+        "We’re still young — we have room to take risks",
+        "You have a work ethic our peers lack",
+        "You believe in humanity’s creativity",
+        "You know rest is a right, not a reward",
+        "You know asking for help isn’t weakness",
         "The hope in your heart is inextinguishable",
-        "I’ll always be here for you. I love you <3 "
+        "I’ll always be here for you. I love you <3"
       ]
     };
 
@@ -245,6 +248,7 @@
     const affirmationDiv = document.getElementById('affirmation');
     const progressBar = document.getElementById('progressBar');
     const tabButtons = document.querySelectorAll('.tab-button');
+    const clickSound = document.getElementById('clickSound');
 
     function updateProgress() {
       const index = indexes[currentTab];
@@ -254,6 +258,10 @@
     }
 
     emoji.addEventListener('click', () => {
+      // 🔊 Play sound
+      clickSound.currentTime = 0;
+      clickSound.play();
+
       emoji.classList.add('shake');
       setTimeout(() => emoji.classList.remove('shake'), 500);
 
