@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Affirmation Heart</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .heart {
+      font-size: 100px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      user-select: none;
+    }
+
+    .heart.shake {
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0% { transform: rotate(0deg); }
+      20% { transform: rotate(5deg); }
+      40% { transform: rotate(-5deg); }
+      60% { transform: rotate(4deg); }
+      80% { transform: rotate(-4deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    .affirmation {
+      margin-top: 30px;
+      font-size: 1.4rem;
+      text-align: center;
+      color: #333;
+      max-width: 80%;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .affirmation.visible {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="heart" id="heart" title="Tap the heart!">💖</div>
+  <div class="affirmation" id="affirmation"></div>
+
+  <script>
+    const affirmations = [
+      "You are loved more than you know.",
+      "Your heart is full of kindness.",
+      "You bring light into the world.",
+      "You are worthy of deep love.",
+      "Every part of you is lovable.",
+      "Love surrounds you and flows through you.",
+      "You are a magnet for positive energy.",
+      "Your presence is a gift to others.",
+      "You are enough just as you are.",
+      "Today is full of love and peace."
+    ];
+
+    const heart = document.getElementById('heart');
+    const affirmationDiv = document.getElementById('affirmation');
+
+    heart.addEventListener('click', () => {
+      // Trigger shake animation
+      heart.classList.add('shake');
+
+      // Remove animation class after it's done
+      setTimeout(() => {
+        heart.classList.remove('shake');
+      }, 500);
+
+      // Get a random affirmation
+      const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+
+      // Display affirmation
+      affirmationDiv.textContent = randomAffirmation;
+      affirmationDiv.classList.add('visible');
+    });
+  </script>
+
+</body>
+</html>
